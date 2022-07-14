@@ -1,0 +1,68 @@
+html,
+body {
+  width: 100%;
+  font-size: 16px;
+}
+.header-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #0d8745;
+}
+.wrap-body {
+  width: 85%;
+  height: 100%;
+  padding: 20px;
+  margin: 0 auto;
+}
+.content-body {
+  padding: 0px !important;
+  margin-bottom: 150px;
+}
+.pagi {
+  width: 100%;
+  margin-top: 50px;
+  text-align: center !important;
+  padding-bottom: 50px;
+}
+.pagi .MuiPaginationItem-textPrimary.Mui-selected {
+  color: #fff;
+  background-color: #0d8745 !important;
+}
+/* dfdf */
+
+.wrap-page {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+  border-radius: 4px;
+  padding: 0px 6px 0px 6px;
+  margin-top: 3px;
+  min-height: 1200px;
+}
+
+
+
+@media (min-width: 1920px) {
+  .wrap-body {
+    width: 75% !important;
+  }
+  .popup-contact {
+    bottom: 13% !important;
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  .wrap-body {
+    width: 96% !important;
+    margin: 0 auto;
+  }
+  .wrap-page {
+    min-height: 500px !important;
+    box-shadow: none;
+  }
+  .popup-contact {
+    right: 5% !important;
+    bottom: 16% !important;
+  }
+  .contact {
+    right: 5% !important;
+  }
+}

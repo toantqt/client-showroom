@@ -1,0 +1,28 @@
+.wrap-highlight {
+  width: 100%;
+  border-radius: 10px 10px 0px 0px;
+  border-top: 0px;
+  border-right: 1.5px;
+  border-bottom: 1.5px;
+  border-left: 1.5px;
+}
+.wrap-highlight .header-highlight {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: #08999c;
+  border-radius: 10px 10px 0px 0px;
+}
+.wrap-highlight .header-highlight span {
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+}
+
+.wrap-highlight .content-highlight {
+  width: 100%;
+  min-height: 500px;
+  padding-top: 30px !important;
+  padding: 50px;
+  border: 1.5px solid #08999c;
+}

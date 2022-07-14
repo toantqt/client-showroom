@@ -1,0 +1,147 @@
+.contact {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  right: 1%;
+  bottom: 5%;
+  background-color: #008749;
+  border-radius: 50%;
+}
+.contact:hover {
+  cursor: pointer;
+}
+.image-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.image-container img {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  animation-name: multiple-image-crossfade;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 8s;
+}
+.image-container img:nth-of-type(1) {
+  animation-delay: 6s;
+}
+.image-container img:nth-of-type(2) {
+  animation-delay: 4s;
+}
+.image-container img:nth-of-type(3) {
+  animation-delay: 2s;
+}
+.image-container img:nth-of-type(4) {
+  animation-delay: 0s;
+}
+@keyframes multiple-image-crossfade {
+  0% {
+    opacity: 1;
+  }
+  17% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0;
+  }
+  92% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.contact {
+  animation: contact 3s linear infinite;
+}
+.contact::before,
+.contact::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  animation: inherit;
+  animation-delay: 1s;
+}
+.contact::after {
+  animation-delay: 2s;
+}
+@keyframes contact {
+  0% {
+    box-shadow: 0 0 0 0rem rgba(152, 235, 127, 0.2);
+  }
+  30% {
+    box-shadow: 0 0 0 0.4rem rgba(70, 190, 33, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 1.2rem rgba(66, 207, 22, 0.2);
+  }
+}
+
+.popup-contact {
+  width: 230px;
+  min-height: 140px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 60%);
+  position: fixed;
+  right: 1%;
+  bottom: 17%;
+  transition: ease-out 0.12s all;
+  transform-origin: 80% 105%;
+  transform: scale(0);
+  padding: 16px 0px 20px 0px;
+}
+
+.popup-contact:before {
+  position: absolute;
+  bottom: -7px;
+  right: 25px;
+  left: auto;
+  display: inline-block !important;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #fff;
+  border-left: 8px solid transparent;
+  content: "";
+}
+
+.show {
+  transform: scale(1);
+}
+
+.popup-contact a {
+  text-decoration: none;
+  color: #212529;
+}
+
+.popup-contact span {
+  font-weight: 500;
+}
+.popup-contact div {
+  padding: 5px 20px 5px 20px;
+}
+.popup-contact div:hover {
+  cursor: pointer;
+  background-color: #ddd;
+}
+
+.btn-close {
+  font-size: 36px;
+  color: white;
+  position: absolute;
+  transition: ease-out 0.12s all;
+  transform-origin: 80% 105%;
+  left: 37%;
+}
+
+.img-close {
+  transform: scale(0);
+  transition: ease-out 0.12s all;
+  transform-origin: 80% 105%;
+}

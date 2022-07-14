@@ -1,0 +1,14 @@
+.video .MuiPaper-root {
+  width: 100% !important;
+  height: 100%;
+  overflow: hidden;
+}
+
+@media (min-width: 1920px) {
+  .video {
+    width: 1200px !important;
+  }
+  .video .MuiDialog-paperWidthSm {
+    max-width: 100%;
+  }
+}

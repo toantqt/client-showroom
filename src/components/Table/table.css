@@ -1,0 +1,9 @@
+.MuiDataGrid-root .MuiDataGrid-columnHeader:focus-within,
+.MuiDataGrid-root .MuiDataGrid-cell:focus-within {
+  outline: none !important;
+}
+
+.MuiDataGrid-columnsContainer {
+  color: white;
+  background-color: #0d8745;
+}

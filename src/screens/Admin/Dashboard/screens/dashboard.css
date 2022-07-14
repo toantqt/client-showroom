@@ -1,0 +1,30 @@
+.dashboard-content {
+  width: 100%;
+  height: auto;
+}
+.header-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.header-sub-title {
+  font-size: 16px;
+  font-weight: 500;
+
+}
+.header-sub-title  span{
+  border-bottom: 2px solid green;
+
+}
+
+.btn-a-1 {
+  color: green !important;
+}
+
+.btn-a-2 {
+  color: blue !important;
+}
+
+.btn-a-3 {
+  color: red !important;
+}

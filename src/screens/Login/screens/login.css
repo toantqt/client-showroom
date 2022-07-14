@@ -1,0 +1,52 @@
+.limiter {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 1200px;
+  background-color: #f2f2f2;
+}
+
+.container-login {
+  width: 100%;
+  padding-top: 30px;
+}
+
+.wrap {
+  width: 30%;
+  min-height: 600px;
+  margin: 0 auto;
+  text-align: center;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 77px 55px 33px;
+  box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%);
+  -moz-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%);
+}
+
+.btn-login {
+  background: #0d8745;
+  border-radius: 100px;
+  padding: 10px 50px;
+  color: #fff !important;
+  text-decoration: none;
+  font-size: 1.45em;
+  margin: 0 15px;
+  width: 100%;
+}
+.btn-login:hover {
+  cursor: pointer;
+}
+
+/* Hover state animation applied here */
+@media only screen and (max-width: 1300px) {
+  .container-login .wrap {
+    width: 40% !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container-login .wrap {
+    height: 830px !important;
+  }
+}

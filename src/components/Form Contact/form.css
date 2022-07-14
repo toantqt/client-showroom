@@ -1,0 +1,11 @@
+#form-contact .MuiTextField-root {
+  width: 100%;
+}
+#form-contact .infor-title {
+  font-size: 25px;
+}
+
+#form-contact .wrap-form {
+  background-color: #f7f7f7;
+  padding: 20px;
+}
