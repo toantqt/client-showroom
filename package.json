@@ -1,7 +1,7 @@
 {
   "name": "client-showroomonline",
   "version": "0.1.0",
-  "homepage": "showroom.design24h.vn",
+  "homepage": "https://showroom.design24h.vn",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.1",
