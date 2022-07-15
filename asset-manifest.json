@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/showroom.design24h.vn/static/css/main.59c714c1.chunk.css",
+    "main.js": "/showroom.design24h.vn/static/js/main.8270a246.chunk.js",
+    "main.js.map": "/showroom.design24h.vn/static/js/main.8270a246.chunk.js.map",
+    "runtime-main.js": "/showroom.design24h.vn/static/js/runtime-main.92dadd74.js",
+    "runtime-main.js.map": "/showroom.design24h.vn/static/js/runtime-main.92dadd74.js.map",
+    "static/css/2.fd06c72a.chunk.css": "/showroom.design24h.vn/static/css/2.fd06c72a.chunk.css",
+    "static/js/2.8a9abe28.chunk.js": "/showroom.design24h.vn/static/js/2.8a9abe28.chunk.js",
+    "static/js/2.8a9abe28.chunk.js.map": "/showroom.design24h.vn/static/js/2.8a9abe28.chunk.js.map",
+    "static/js/3.1a0cadd9.chunk.js": "/showroom.design24h.vn/static/js/3.1a0cadd9.chunk.js",
+    "static/js/3.1a0cadd9.chunk.js.map": "/showroom.design24h.vn/static/js/3.1a0cadd9.chunk.js.map",
+    "index.html": "/showroom.design24h.vn/index.html",
+    "static/css/2.fd06c72a.chunk.css.map": "/showroom.design24h.vn/static/css/2.fd06c72a.chunk.css.map",
+    "static/css/main.59c714c1.chunk.css.map": "/showroom.design24h.vn/static/css/main.59c714c1.chunk.css.map",
+    "static/js/2.8a9abe28.chunk.js.LICENSE.txt": "/showroom.design24h.vn/static/js/2.8a9abe28.chunk.js.LICENSE.txt",
+    "static/media/logo.a1a607a2.png": "/showroom.design24h.vn/static/media/logo.a1a607a2.png",
+    "static/media/notifications.css": "/showroom.design24h.vn/static/media/notification.c5d9251e.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.92dadd74.js",
+    "static/css/2.fd06c72a.chunk.css",
+    "static/js/2.8a9abe28.chunk.js",
+    "static/css/main.59c714c1.chunk.css",
+    "static/js/main.8270a246.chunk.js"
+  ]
+}
