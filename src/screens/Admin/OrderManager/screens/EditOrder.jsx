@@ -76,13 +76,16 @@ export default function EditOrder(props) {
   }, [orderID, reload]);
 
   const rows = order?.listsProduct?.map((e, index) => {
+    let total =
+      order?.order?.listsProduct[index]?.quantity *
+      order?.order?.listsProduct[index]?.price;
     return {
       id: index,
       code: e?.code,
       productName: e?.productName,
       price: order?.order?.listsProduct[index]?.price?.toLocaleString("it-IT"),
       quantity: order?.order?.listsProduct[index]?.quantity || 1,
-      amount: order?.order?.totalPrice?.toLocaleString("it-IT"),
+      amount: total.toLocaleString("it-IT"),
       action: { orderID: order?.order?._id, productID: e._id },
     };
   });
