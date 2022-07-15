@@ -29,6 +29,7 @@ import SearchInputComponent from "../../../../components/Search Input/SearchInpu
 import { searchProduct } from "../../../../api/API";
 import TextField from "@material-ui/core/TextField";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ModalViewProduct from "../../../../components/Modal/ModalViewProduct";
 export default function EditOrder(props) {
   const history = useHistory();
   const search = queryString.parse(props.location.search);
@@ -50,6 +51,8 @@ export default function EditOrder(props) {
   const [openModal, setOpenModal] = useState(false);
   const [dataDelete, setDataDelete] = useState();
   const [totalPrice, setTotalPrice] = useState(0);
+  const [modalViews, setModalViews] = useState(false);
+  const [dataViews, setDataViews] = useState();
   useEffect(async () => {
     props.handleLoading(true);
     if (orderID) {
@@ -86,7 +89,7 @@ export default function EditOrder(props) {
       price: order?.order?.listsProduct[index]?.price?.toLocaleString("it-IT"),
       quantity: order?.order?.listsProduct[index]?.quantity || 1,
       amount: total.toLocaleString("it-IT"),
-      action: { orderID: order?.order?._id, productID: e._id },
+      action: { orderID: order?.order?._id, productID: e._id, product: e },
     };
   });
 
@@ -107,7 +110,7 @@ export default function EditOrder(props) {
               aria-label="delete"
               className="btn-action btn-a-1"
               onClick={() => {
-                handleClickEdit(action.row?.action?._id);
+                handleClickEdit(action.row?.action);
               }}
             >
               <VisibilityIcon />
@@ -153,11 +156,9 @@ export default function EditOrder(props) {
     }
   };
 
-  const handleClickEdit = (id) => {
-    history.push({
-      pathname: AdminSlug.editProduct,
-      search: `?id=${id}`,
-    });
+  const handleClickEdit = (data) => {
+    setDataViews(data);
+    setModalViews(true);
   };
 
   const handleChange = (event) => {
@@ -180,6 +181,11 @@ export default function EditOrder(props) {
         history.push(AdminSlug.orderManager);
       });
     }
+  };
+
+  const handleCloseViews = () => {
+    setDataViews();
+    setModalViews(false);
   };
 
   return (
@@ -276,6 +282,11 @@ export default function EditOrder(props) {
         title="Xác nhận xóa sản phẩm đặt hàng"
         handleClose={handleCloseConfirm}
         handleDelete={submitDeleteProduct}
+      />
+      <ModalViewProduct
+        data={dataViews}
+        open={modalViews}
+        handleClose={handleCloseViews}
       />
     </Grid>
   );
