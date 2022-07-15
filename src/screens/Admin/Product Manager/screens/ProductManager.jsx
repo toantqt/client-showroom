@@ -127,8 +127,9 @@ export default function ProductManager(props) {
   };
 
   const handleClickDelete = (id) => {
-    setProductID(id);
-    setOpenConfirm(true);
+    // setProductID(id);
+    // setOpenConfirm(true);
+    alert("Chức năng đang trong quá trình cập nhật");
   };
 
   const handleCloseConfirm = () => {
