@@ -21,6 +21,7 @@ import AdminSlug from "../../../../resources/AdminSlug";
 import ModalConfirmComponent from "../../../../components/Modal/ModalConfirm.component";
 import SearchInputComponent from "../../../../components/Search Input/SearchInput.component";
 import { searchProduct } from "../../../../api/API";
+import ModalViewProduct from "../../../../components/Modal/ModalViewProduct";
 export default function ProductManager(props) {
   const history = useHistory();
   const [product, setProduct] = useState([]);
@@ -32,6 +33,8 @@ export default function ProductManager(props) {
   const [newsID, setNewsID] = useState("");
   const [productID, setProductID] = useState("");
   const [reload, setReload] = useState(false);
+  const [modalView, setModalView] = useState(false);
+  const [dataViews, setDataViews] = useState();
 
   useEffect(async () => {
     props.handleLoading(true);
@@ -59,7 +62,7 @@ export default function ProductManager(props) {
       price: e?.product?.price.toLocaleString("it-IT"),
       code: e.product?.code,
       date: covertDate(e.product?.created) || covertDate(e?.created),
-      action: e.product || e,
+      action: e,
     };
   });
 
@@ -81,7 +84,7 @@ export default function ProductManager(props) {
               aria-label="delete"
               className="btn-action btn-a-1"
               onClick={() => {
-                handleClickEdit(action.row?.action?._id);
+                hanldeClickView(action.row?.action);
               }}
             >
               <VisibilityIcon />
@@ -110,15 +113,17 @@ export default function ProductManager(props) {
     },
   ];
 
-  const handleClickView = (slug) => {
-    history.push(`/bai-viet/${slug}`);
+  const hanldeClickView = (data) => {
+    setDataViews(data);
+    setModalView(true);
   };
 
   const handleClickAdd = () => {
-    history.push({
-      pathname: AdminSlug.createProduct,
-      search: `?id=${categoryID}`,
-    });
+    alert("Chức năng đang trong quá trình cập nhật");
+    // history.push({
+    //   pathname: AdminSlug.createProduct,
+    //   search: `?id=${categoryID}`,
+    // });
   };
 
   const handleClickDelete = (id) => {
@@ -129,6 +134,11 @@ export default function ProductManager(props) {
   const handleCloseConfirm = () => {
     setProductID("");
     setOpenConfirm(false);
+  };
+
+  const handleCloseView = () => {
+    setDataViews();
+    setModalView(false);
   };
 
   const submitDeleteProduct = async () => {
@@ -203,6 +213,11 @@ export default function ProductManager(props) {
         handleClose={handleCloseConfirm}
         title="Xác nhận xóa sản phẩm"
         handleDelete={submitDeleteProduct}
+      />
+      <ModalViewProduct
+        open={modalView}
+        data={dataViews}
+        handleClose={handleCloseView}
       />
     </Grid>
   );

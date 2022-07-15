@@ -56,7 +56,7 @@ const LoginPage = () => {
         // );
         // localStorage.clear();
         if (res === "admin") {
-          history.push("/admin");
+          history.push("/admin/order-manager");
         } else {
           alert("Bạn không có quyền để truy cập");
           localStorage.clear();
@@ -71,10 +71,14 @@ const LoginPage = () => {
       <div className="container-login">
         <Grid className="wrap">
           <div className="title-login ">
-            <img src={logo} alt="" width="69%" />
+            <img
+              src="https://res.cloudinary.com/serviced24/image/upload/v1633589688/logomenu_nliwks.png"
+              alt=""
+              width="49%"
+            />
           </div>
 
-          <div className="form-login ">
+          <div className="form-login mt-3 mb-5">
             <form className={classes.root} noValidate autoComplete="off">
               <TextField
                 type="text"

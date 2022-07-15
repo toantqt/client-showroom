@@ -73,7 +73,7 @@ export default function DealerManager(props) {
             >
               <VisibilityIcon />
             </IconButton>
-            <IconButton
+            {/* <IconButton
               aria-label="delete"
               className="btn-action btn-a-2"
               onClick={() => {
@@ -81,7 +81,7 @@ export default function DealerManager(props) {
               }}
             >
               <EditIcon />
-            </IconButton>
+            </IconButton> */}
           </>
         );
       },

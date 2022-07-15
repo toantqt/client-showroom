@@ -8,8 +8,8 @@ export const covertDate = (date) => {
 };
 
 // const url = "https://xuan-nong.herokuapp.com/api";
-// const url = "http://45.15.24.162:6698/api";
-const url = "http://localhost:6698/api";
+const url = "http://45.15.24.162:6698/api";
+// const url = "http://localhost:6698/api";
 
 const headers = async () => {
   return { Authorization: `${await getAccessToken()}` };
