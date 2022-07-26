@@ -1,44 +1,53 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import {
   addDealer,
-  getDetailsDealer,
-  updateDealer,
+  createCompany,
+  getDetailsCompany,
+  updateCompany,
 } from "../../../../api/AdminAPI";
 import AdminSlug from "../../../../resources/AdminSlug";
 import { useHistory } from "react-router-dom";
+import ModalErrorComponent from "../../../../components/Modal/ModalError.component";
 import queryString from "query-string";
-import Switch from "@material-ui/core/Switch";
 
 export default function EditDealer(props) {
-  const history = useHistory();
   const search = queryString.parse(props.location.search);
-  console.log(search);
-  const id = search.id;
-
+  const companyID = search.id;
+  const history = useHistory();
   const [data, setData] = useState({
-    name: "",
-    email: "",
+    companyName: "",
+    acronym: "",
     phoneNumber: "",
     address: "",
-    note: "",
-    confirm: false,
+    email: "",
   });
-  const [dealer, setDealer] = useState();
+  const [defaultValue, setDefaultVaule] = useState();
   useEffect(async () => {
     props.handleLoading(false);
-    if (id) {
-      await getDetailsDealer(id).then((res) => {
-        setData(res.data);
-        setDealer(res.data);
+  }, []);
+  const [openModal, setOpenModal] = useState(false);
+  const [title, setTitle] = useState("");
+
+  useEffect(async () => {
+    props.handleLoading(true);
+    if (companyID) {
+      await getDetailsCompany(companyID).then((res) => {
+        setData({
+          companyName: res.data.companyName,
+          acronym: res.data.acronym,
+          phoneNumber: res.data.phoneNumber,
+          address: res.data.address,
+          email: res.data.email,
+        });
+        setDefaultVaule(res.data);
       });
       props.handleLoading(false);
     }
-  }, [id]);
+  }, [companyID]);
 
   const handleClickAdd = () => {
     // history.push(AdminSlug.addDealer);
@@ -46,49 +55,71 @@ export default function EditDealer(props) {
   const handleChangeInput = (event) => {
     let name = event.target.name;
     let value = event.target.value;
-    console.log(value);
     setData({ ...data, [name]: value });
   };
 
   const handleSubmit = async () => {
-    if (
-      data.email === "" ||
-      data.name === "" ||
-      data.phoneNumber === "" ||
-      data.address === ""
-    ) {
-      alert("Xin vui lòng điền đầy đủ thông tin");
-    } else {
-      data.dealerID = id;
-      await updateDealer(data).then((res) => {
-        history.push({
-          pathname: AdminSlug.dealerManager,
-          search: `?q=${data.confirm}`,
-        });
+    props.handleLoading(true);
+    await updateCompany(companyID, data)
+      .then((res) => {
+        history.push(AdminSlug.dealerManager);
+      })
+      .catch((error) => {
+        props.handleLoading(false);
+        setTitle(error.data.message);
+        setOpenModal(true);
       });
-    }
+    // if (
+    //   data.email === "" ||
+    //   data.name === "" ||
+    //   data.phoneNumber === "" ||
+    //   data.address === ""
+    // ) {
+    //   alert("Xin vui lòng điền đầy đủ thông tin");
+    // } else {
+    //   addDealer(data).then((res) => {
+    //     history.push({
+    //       pathname: AdminSlug.dealerManager,
+    //       search: `?q=true`,
+    //     });
+    //   });
+    // }
   };
 
-  const handleChangeConfirm = () => {
-    setData({ ...data, ["confirm"]: !data.confirm });
+  const handleClose = () => {
+    setOpenModal(false);
+    setTitle("");
   };
   return (
     <Grid>
       <div className="header-title mb-3">
-        <span>Cập nhật thông tin đại lý:</span>
+        <span>Cập nhật thông tin nhà phân phối:</span>
       </div>
       <Grid container spacing={2}>
         <Grid item lg={6}>
           <TextField
             id="outlined-basic"
-            label="Họ tên"
+            label="Tên nhà phân phối"
             variant="outlined"
-            name="name"
+            name="companyName"
             style={{ width: "100%" }}
             onChange={handleChangeInput}
+            defaultValue={defaultValue?.companyName}
+            key={defaultValue?.companyName}
             required
-            defaultValue={dealer?.name}
-            key={dealer?.name}
+          />
+        </Grid>
+        <Grid item lg={6}>
+          <TextField
+            id="outlined-basic"
+            label="Tên viết tắt"
+            variant="outlined"
+            name="acronym"
+            style={{ width: "100%" }}
+            onChange={handleChangeInput}
+            defaultValue={defaultValue?.acronym}
+            key={defaultValue?.acronym}
+            required
           />
         </Grid>
         <Grid item lg={6}>
@@ -98,11 +129,25 @@ export default function EditDealer(props) {
             variant="outlined"
             name="email"
             style={{ width: "100%" }}
-            onChange={handleChangeInput}
+            defaultValue={defaultValue?.email}
+            key={defaultValue?.email}
             required
+            disabled
             type="email"
-            defaultValue={dealer?.email}
-            key={dealer?.email}
+          />
+        </Grid>
+
+        <Grid item lg={6}>
+          <TextField
+            id="outlined-basic"
+            label="Địa chỉ"
+            variant="outlined"
+            name="address"
+            style={{ width: "100%" }}
+            onChange={handleChangeInput}
+            defaultValue={defaultValue?.address}
+            key={defaultValue?.address}
+            required
           />
         </Grid>
         <Grid item lg={6}>
@@ -113,50 +158,10 @@ export default function EditDealer(props) {
             name="phoneNumber"
             style={{ width: "100%" }}
             onChange={handleChangeInput}
+            defaultValue={defaultValue?.phoneNumber}
+            key={defaultValue?.phoneNumber}
             required
-            type="number"
-            defaultValue={dealer?.phoneNumber}
-            key={dealer?.phoneNumber}
           />
-        </Grid>
-        <Grid item lg={6}>
-          <TextField
-            id="outlined-basic"
-            label="Địa chỉ"
-            variant="outlined"
-            name="address"
-            style={{ width: "100%" }}
-            onChange={handleChangeInput}
-            required
-            defaultValue={dealer?.address}
-            key={dealer?.address}
-          />
-        </Grid>
-        <Grid item lg={12}>
-          <TextareaAutosize
-            label="Ghi chú"
-            minRows={9}
-            placeholder="Ghi chú"
-            style={{ width: "100%" }}
-            name="note"
-            onChange={handleChangeInput}
-            defaultValue={dealer?.note}
-            key={dealer?.note}
-          />
-        </Grid>
-        <Grid item lg={12}>
-          <div className="header-title mb-3">
-            <span>Đã xác thực:</span>
-
-            <Switch
-              key={dealer?.confirm}
-              checked={data?.confirm}
-              onChange={handleChangeConfirm}
-              color="primary"
-              name="confirm"
-              inputProps={{ "aria-label": "primary checkbox" }}
-            />
-          </div>
         </Grid>
       </Grid>
       <div style={{ marginTop: "70px" }}>
@@ -171,6 +176,11 @@ export default function EditDealer(props) {
           Xác nhận
         </Button>
       </div>
+      <ModalErrorComponent
+        open={openModal}
+        title={title}
+        handleClose={handleClose}
+      />
     </Grid>
   );
 }

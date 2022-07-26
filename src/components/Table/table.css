@@ -7,3 +7,7 @@
   color: white;
   background-color: #0d8745;
 }
+
+.table-pagi .MuiDataGrid-footerContainer {
+  display: none !important;
+}

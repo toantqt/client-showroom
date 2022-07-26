@@ -6,7 +6,12 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import IconButton from "@material-ui/core/IconButton";
 import queryString from "query-string";
-import { deleteProduct } from "../../../../api/AdminAPI";
+import {
+  deleteProduct,
+  getDealer,
+  productPagiManager,
+  searchProduct,
+} from "../../../../api/AdminAPI";
 import {
   getCategoryNews,
   getNewsCategory,
@@ -20,44 +25,58 @@ import Button from "@material-ui/core/Button";
 import AdminSlug from "../../../../resources/AdminSlug";
 import ModalConfirmComponent from "../../../../components/Modal/ModalConfirm.component";
 import SearchInputComponent from "../../../../components/Search Input/SearchInput.component";
-import { searchProduct } from "../../../../api/API";
 import ModalViewProduct from "../../../../components/Modal/ModalViewProduct";
+import TablePagiComponent from "../../../../components/Table/TablePagi.component";
 export default function ProductManager(props) {
   const history = useHistory();
   const [product, setProduct] = useState([]);
-  const [categoryName, setCategoryName] = useState("");
-  const [subCategory, setSubCategory] = useState([]);
-  const [categoryID, setCategoryID] = useState("");
-  const [categorySelect, setCategorySelect] = useState("");
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [newsID, setNewsID] = useState("");
   const [productID, setProductID] = useState("");
   const [reload, setReload] = useState(false);
   const [modalView, setModalView] = useState(false);
   const [dataViews, setDataViews] = useState();
+  const [company, setCompany] = useState([
+    {
+      _id: "all",
+      companyName: "Tất cả",
+    },
+  ]);
+
+  const [companySelect, setCompanySelect] = useState("all");
+  const [count, setCount] = useState(0);
+  const [page, setPage] = useState(0);
 
   useEffect(async () => {
     props.handleLoading(true);
-    await productManager().then((res) => {
-      setProduct(res.data);
+    await getDealer().then((res) => {
+      for (let item of res.data) {
+        setCompany((company) => [...company, item]);
+      }
     });
-
+  }, []);
+  useEffect(async () => {
+    props.handleLoading(true);
+    await productPagiManager(companySelect, page).then((res) => {
+      setCount(res.data.count);
+      setProduct(res.data.listsProduct);
+    });
     props.handleLoading(false);
-  }, [reload]);
+  }, [page, companySelect]);
 
   const handleChangeCategory = (value) => {
+    console.log(value);
     if (value !== "") {
-      setCategorySelect(value._id);
+      setCompanySelect(value._id);
     } else {
-      setCategorySelect("");
+      setCompanySelect("all");
     }
+    setPage(0);
   };
 
   const rows = product.map((e, index) => {
-    console.log(e);
     return {
       id: index,
-      stt: index + 1,
+      stt: page * 16 + index + 1,
       name: e?.product?.productName,
       price: e?.product?.price.toLocaleString("it-IT"),
       code: e.product?.code,
@@ -69,14 +88,14 @@ export default function ProductManager(props) {
   const columns = [
     { field: "stt", headerName: "STT", width: 90 },
     { field: "name", headerName: "Sản phẩm", width: 300 },
-    { field: "code", headerName: "Mã SP", width: 130 },
+    { field: "code", headerName: "Mã SP", width: 190 },
     { field: "price", headerName: "Giá", width: 130 },
 
     { field: "date", headerName: "Ngày tạo", width: 150 },
     {
       field: "action",
       headerName: "Chức năng",
-      width: 210,
+      width: 160,
       renderCell: (action) => {
         return (
           <>
@@ -98,15 +117,6 @@ export default function ProductManager(props) {
             >
               <EditIcon />
             </IconButton> */}
-            <IconButton
-              aria-label="delete"
-              className="btn-action btn-a-3"
-              onClick={() => {
-                handleClickDelete(action.row?.action?._id);
-              }}
-            >
-              <DeleteForeverIcon />
-            </IconButton>
           </>
         );
       },
@@ -159,54 +169,47 @@ export default function ProductManager(props) {
     });
   };
 
-  const handleSearch = async (value) => {
-    console.log(value);
-    if (!value || value === "") {
-      alert("Xin vui lòng nhập thông tin cần tìm");
-    } else {
-      await searchProduct({ search: value }).then((res) => {
-        setProduct(res.data);
-      });
-    }
+  // const handleSearch = async (value) => {
+  //   if (!value || value === "") {
+  //     alert("Xin vui lòng nhập thông tin cần tìm");
+  //   } else {
+  //     await searchProduct(companySelect, value).then((res) => {
+  //       setProduct(res.data);
+  //     });
+  //   }
+  // };
+
+  const handleChangePage = (page) => {
+    setPage(page);
   };
 
   return (
     <Grid>
       <div className="header-title mb-3">
         <span>Quản Lý Sản Phẩm: ({product.length}) </span>
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          startIcon={<EditIcon />}
-          style={{
-            textTransform: "none",
-            float: "right",
-          }}
-          onClick={handleClickAdd}
-        >
-          Thêm sản phẩm
-        </Button>
       </div>
-      {/* <Grid container spacing={1}>
-        {subCategory.length !== 0 ? (
-          <Grid item xs={4} className="mb-3">
-            <SelectCategory
-              data={subCategory}
-              handleChange={handleChangeCategory}
-            />
-          </Grid>
-        ) : (
-          <Grid item xs={4}></Grid>
-        )}
-        <Grid item xs={4}></Grid>
+      <Grid container spacing={1}>
         <Grid item xs={4} className="mb-3">
-          <SearchInputComponent handleSearch={handleSearch} />
+          <SelectCategory
+            data={company}
+            handleChange={handleChangeCategory}
+            companySelect={companySelect}
+          />
         </Grid>
-      </Grid> */}
+        <Grid item xs={4}></Grid>
+        {/* <Grid item xs={4} className="mb-3">
+          <SearchInputComponent handleSearch={handleSearch} />
+        </Grid> */}
+      </Grid>
 
       <div>
-        <TableComponent columns={columns} rows={rows} />
+        <TablePagiComponent
+          columns={columns}
+          rows={rows}
+          count={count}
+          page={page}
+          handleChangePage={handleChangePage}
+        />
       </div>
 
       <ModalConfirmComponent

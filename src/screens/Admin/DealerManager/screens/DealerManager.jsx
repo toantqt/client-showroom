@@ -36,26 +36,15 @@ export default function DealerManager(props) {
       companyName: e.companyName,
       acronym: e.acronym,
       address: e.address,
-      date: covertDate(e.createdAt),
+      date: covertDate(e.created),
       action: e,
     };
   });
 
   const columns = [
-    { field: "companyName", headerName: "Tên NPP", width: 500 },
+    { field: "companyName", headerName: "Tên NPP", width: 600 },
     { field: "acronym", headerName: "Mã NPP", width: 110 },
-    {
-      field: "account",
-      headerName: "Tài Khoản",
-      width: 160,
-      renderCell: (action) => {
-        if (action.row?.action?.account) {
-          return <Chip label="Đã tạo tài khoản" color="primary" />;
-        } else {
-          return <Chip label="Chưa tạo tài khoản" color="secondary" />;
-        }
-      },
-    },
+
     { field: "date", headerName: "Ngày tạo", width: 130 },
     {
       field: "action",
@@ -65,7 +54,7 @@ export default function DealerManager(props) {
         return (
           <>
             <IconButton
-              aria-label="delete"
+              aria-label="views"
               className="btn-action btn-a-1"
               onClick={() => {
                 // handleClickDelete(action.row?.action?._id);
@@ -73,15 +62,16 @@ export default function DealerManager(props) {
             >
               <VisibilityIcon />
             </IconButton>
-            {/* <IconButton
-              aria-label="delete"
+
+            <IconButton
+              aria-label="edit"
               className="btn-action btn-a-2"
               onClick={() => {
                 handleClickEdit(action.row?.action?._id);
               }}
             >
               <EditIcon />
-            </IconButton> */}
+            </IconButton>
           </>
         );
       },
@@ -123,7 +113,7 @@ export default function DealerManager(props) {
   return (
     <Grid>
       <div className="header-title mb-3">
-        <span>Quản Lý Nhà Phân Phối:</span>
+        <span>Quản Lý Nhà Phân Phối: ({dealer.length}) </span>
         <Button
           variant="contained"
           color="primary"

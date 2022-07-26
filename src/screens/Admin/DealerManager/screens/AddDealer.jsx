@@ -4,24 +4,25 @@ import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
-import { addDealer } from "../../../../api/AdminAPI";
+import { addDealer, createCompany } from "../../../../api/AdminAPI";
 import AdminSlug from "../../../../resources/AdminSlug";
 import { useHistory } from "react-router-dom";
+import ModalErrorComponent from "../../../../components/Modal/ModalError.component";
 
 export default function AddDealer(props) {
   const history = useHistory();
   const [data, setData] = useState({
-    name: "",
-    email: "",
+    companyName: "",
+    acronym: "",
     phoneNumber: "",
     address: "",
-    note: "",
-    confirm: true,
+    email: "",
   });
   useEffect(async () => {
     props.handleLoading(false);
   }, []);
-
+  const [openModal, setOpenModal] = useState(false);
+  const [title, setTitle] = useState("");
   const handleClickAdd = () => {
     // history.push(AdminSlug.addDealer);
   };
@@ -32,34 +33,59 @@ export default function AddDealer(props) {
   };
 
   const handleSubmit = async () => {
-    if (
-      data.email === "" ||
-      data.name === "" ||
-      data.phoneNumber === "" ||
-      data.address === ""
-    ) {
-      alert("Xin vui lòng điền đầy đủ thông tin");
-    } else {
-      addDealer(data).then((res) => {
-        history.push({
-          pathname: AdminSlug.dealerManager,
-          search: `?q=true`,
-        });
+    props.handleLoading(true);
+    await createCompany(data)
+      .then((res) => {
+        history.push(AdminSlug.dealerManager);
+      })
+      .catch((error) => {
+        setTitle(error.data.message);
+        setOpenModal(true);
       });
-    }
+    // if (
+    //   data.email === "" ||
+    //   data.name === "" ||
+    //   data.phoneNumber === "" ||
+    //   data.address === ""
+    // ) {
+    //   alert("Xin vui lòng điền đầy đủ thông tin");
+    // } else {
+    //   addDealer(data).then((res) => {
+    //     history.push({
+    //       pathname: AdminSlug.dealerManager,
+    //       search: `?q=true`,
+    //     });
+    //   });
+    // }
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+    setTitle("");
   };
   return (
     <Grid>
       <div className="header-title mb-3">
-        <span>Thêm đại lý mới:</span>
+        <span>Thêm nhà phân phối mới:</span>
       </div>
       <Grid container spacing={2}>
         <Grid item lg={6}>
           <TextField
             id="outlined-basic"
-            label="Họ tên"
+            label="Tên nhà phân phối"
             variant="outlined"
-            name="name"
+            name="companyName"
+            style={{ width: "100%" }}
+            onChange={handleChangeInput}
+            required
+          />
+        </Grid>
+        <Grid item lg={6}>
+          <TextField
+            id="outlined-basic"
+            label="Tên viết tắt"
+            variant="outlined"
+            name="acronym"
             style={{ width: "100%" }}
             onChange={handleChangeInput}
             required
@@ -77,18 +103,7 @@ export default function AddDealer(props) {
             type="email"
           />
         </Grid>
-        <Grid item lg={6}>
-          <TextField
-            id="outlined-basic"
-            label="Điện thoại"
-            variant="outlined"
-            name="phoneNumber"
-            style={{ width: "100%" }}
-            onChange={handleChangeInput}
-            required
-            type="number"
-          />
-        </Grid>
+
         <Grid item lg={6}>
           <TextField
             id="outlined-basic"
@@ -100,14 +115,15 @@ export default function AddDealer(props) {
             required
           />
         </Grid>
-        <Grid item lg={12}>
-          <TextareaAutosize
-            label="Ghi chú"
-            minRows={9}
-            placeholder="Ghi chú"
+        <Grid item lg={6}>
+          <TextField
+            id="outlined-basic"
+            label="Điện thoại"
+            variant="outlined"
+            name="phoneNumber"
             style={{ width: "100%" }}
-            name="note"
             onChange={handleChangeInput}
+            required
           />
         </Grid>
       </Grid>
@@ -123,6 +139,11 @@ export default function AddDealer(props) {
           Xác nhận
         </Button>
       </div>
+      <ModalErrorComponent
+        open={openModal}
+        title={title}
+        handleClose={handleClose}
+      />
     </Grid>
   );
 }

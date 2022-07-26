@@ -18,9 +18,10 @@ const useStyles = makeStyles({
 
 export default function SelectCategory(props) {
   const classes = useStyles();
-  const [defaultValue, setDefaultValue] = useState({
-    categoryName: props?.value?.categoryName,
-    _id: props?.value?._id,
+
+  const [defaultValue, setDefaultVaule] = useState({
+    _id: "all",
+    companyName: "Tất cả",
   });
 
   const handeChange = (event, value) => {
@@ -30,19 +31,8 @@ export default function SelectCategory(props) {
       props.handleChange("");
     }
   };
-  useEffect(() => {
-    if (props.value && props.data) {
-      for (let item of props.data) {
-        if (props.value.categoryID === item._id) {
-          setDefaultValue({
-            categoryName: item.categoryName,
-            _id: item._id,
-          });
-        }
-      }
-    }
-  }, [props.value, props.data]);
 
+  console.log(props);
   return (
     <Autocomplete
       id="country-select-demo"
@@ -54,16 +44,16 @@ export default function SelectCategory(props) {
         option: classes.option,
       }}
       autoHighlight
-      getOptionLabel={(option) => option.categoryName || option.name}
+      getOptionLabel={(option) => option?.companyName}
       renderOption={(option) => (
-        <React.Fragment>{option.categoryName || option.name}</React.Fragment>
+        <React.Fragment>{option?.companyName}</React.Fragment>
       )}
       renderInput={(params) => (
         <TextField
           {...params}
           variant="outlined"
-          defaultValue={defaultValue.categoryName || defaultValue.name}
-          label="Chọn danh mục"
+          defaultValue={defaultValue?.companyName}
+          label="Chọn công ty"
         />
       )}
       onChange={handeChange}

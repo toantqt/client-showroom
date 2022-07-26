@@ -8,8 +8,8 @@ export const covertDate = (date) => {
 };
 
 // const url = "https://xuan-nong.herokuapp.com/api";
-const url = "http://45.15.24.162:6698/api";
-// const url = "http://localhost:6698/api";
+// const url = "http://45.15.24.162:6698/api";
+const url = "http://localhost:6698/api";
 
 const headers = async () => {
   return { Authorization: `${await getAccessToken()}` };
@@ -419,6 +419,30 @@ export const productManager = async () => {
     });
 };
 
+export const productPagiManager = async (companyID, page) => {
+  return await axios
+    .get(`${url}/v1/productSlider/product/${companyID}/${page}`, {
+      headers: await headers(),
+    })
+    .then(async (res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+};
+
+export const searchProduct = async (companyID, search) => {
+  return await axios
+    .get(`${url}/v1/productSlider/search-product/${companyID}/${search}`)
+    .then(async (res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+};
+
 export const orderManager = async (type) => {
   return await axios
     .get(`${url}/v1/productSlider/order/${type}`, {
@@ -483,6 +507,52 @@ export const deleteOrder = async (orderID) => {
       return error.response;
     });
 };
+
+export const createCompany = (data) => {
+  return new Promise(async (resolve, reject) => {
+    return await axios
+      .post(`${url}/v1/productSlider/company`, data, {
+        headers: await headers(),
+      })
+      .then(async (res) => {
+        return resolve(res.data);
+      })
+      .catch((error) => {
+        return reject(error.response);
+      });
+  });
+};
+
+export const getDetailsCompany = (id) => {
+  return new Promise(async (resolve, reject) => {
+    return await axios
+      .get(`${url}/v1/productSlider/company/${id}`, {
+        headers: await headers(),
+      })
+      .then(async (res) => {
+        return resolve(res.data);
+      })
+      .catch((error) => {
+        return reject(error.response);
+      });
+  });
+};
+
+export const updateCompany = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    return await axios
+      .patch(`${url}/v1/productSlider/company/${id}`, data, {
+        headers: await headers(),
+      })
+      .then(async (res) => {
+        return resolve(res.data);
+      })
+      .catch((error) => {
+        return reject(error.response);
+      });
+  });
+};
+
 export const deleteProduct = async (data) => {
   return await axios
     .post(`${url}/delete-product`, data, {
