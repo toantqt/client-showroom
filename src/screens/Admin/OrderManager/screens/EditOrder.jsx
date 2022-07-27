@@ -12,6 +12,7 @@ import {
   getDetailsOrder,
   orderManager,
   removeProductOrder,
+  updateQuantityOrder,
 } from "../../../../api/AdminAPI";
 import {
   getCategoryNews,
@@ -30,6 +31,7 @@ import { searchProduct } from "../../../../api/API";
 import TextField from "@material-ui/core/TextField";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ModalViewProduct from "../../../../components/Modal/ModalViewProduct";
+import CheckIcon from "@material-ui/icons/Check";
 export default function EditOrder(props) {
   const history = useHistory();
   const search = queryString.parse(props.location.search);
@@ -53,6 +55,8 @@ export default function EditOrder(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [modalViews, setModalViews] = useState(false);
   const [dataViews, setDataViews] = useState();
+  const [openCheck, setOpenCheck] = useState([]);
+  const [editQuantity, setEditQuantity] = useState([]);
   useEffect(async () => {
     props.handleLoading(true);
     if (orderID) {
@@ -87,7 +91,7 @@ export default function EditOrder(props) {
       code: e?.code,
       productName: e?.productName,
       price: order?.order?.listsProduct[index]?.price?.toLocaleString("it-IT"),
-      quantity: order?.order?.listsProduct[index]?.quantity || 1,
+      quantity: order?.order?.listsProduct[index] || 1,
       amount: total.toLocaleString("it-IT"),
       action: { orderID: order?.order?._id, productID: e._id, product: e },
     };
@@ -97,7 +101,43 @@ export default function EditOrder(props) {
     { field: "code", headerName: "Mã SP", width: 130 },
     { field: "productName", headerName: "Tên SP", width: 200 },
     { field: "price", headerName: "Giá", width: 100 },
-    { field: "quantity", headerName: "SL", width: 80 },
+    {
+      field: "quantity",
+      headerName: "SL",
+      width: 150,
+      renderCell: (action) => {
+        const indexCheck = openCheck.findIndex((e) => {
+          return e._id == action?.row?.quantity?._id;
+        });
+        return (
+          <>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              defaultValue={action?.row?.quantity?.quantity}
+              style={{ width: "80%" }}
+              onChange={(event) => {
+                handleChangeQuantity(event, action?.row?.quantity);
+              }}
+              type="number"
+            />
+            {indexCheck != -1 ? (
+              <IconButton
+                aria-label="delete"
+                className="btn-action btn-a-1"
+                onClick={() => {
+                  handleClickEditQuantity(action?.row?.quantity);
+                }}
+              >
+                <CheckIcon />
+              </IconButton>
+            ) : (
+              <></>
+            )}
+          </>
+        );
+      },
+    },
     { field: "amount", headerName: "Tổng tiền", width: 130 },
     {
       field: "action",
@@ -129,6 +169,58 @@ export default function EditOrder(props) {
       },
     },
   ];
+
+  const handleChangeQuantity = (event, data) => {
+    let index = editQuantity.findIndex((e) => {
+      return e._id == data._id;
+    });
+    let indexCheck = openCheck.findIndex((e) => {
+      return e._id == data._id;
+    });
+    if (indexCheck == -1) {
+      setOpenCheck((openCheck) => [...openCheck, { _id: data._id }]);
+    }
+    if (index == -1) {
+      setEditQuantity((editQuantity) => [
+        ...editQuantity,
+        { _id: data._id, quantity: event.target.value },
+      ]);
+    } else {
+      let newData = [...editQuantity];
+      newData[index].quantity = event.target.value;
+      setEditQuantity(newData);
+    }
+  };
+
+  const handleClickEditQuantity = async (data) => {
+    let index = editQuantity.findIndex((e) => {
+      return e._id == data._id;
+    });
+
+    let dataUpdate = {
+      orderID: orderID,
+      productID: editQuantity[index]._id,
+      quantity: parseInt(editQuantity[index].quantity),
+    };
+    if (dataUpdate.quantity == "" || dataUpdate.quantity == 0) {
+      alert("Xin vui lòng điền số lượng");
+    } else {
+      props.handleLoading(true);
+      let newDataCheck = openCheck.filter((e) => {
+        return e._id != data._id;
+      });
+      setOpenCheck(newDataCheck);
+      await updateQuantityOrder(dataUpdate).then((res) => {
+        let newData = editQuantity.filter((e) => {
+          return e._id != dataUpdate.productID;
+        });
+        setEditQuantity(newData);
+        setReload(!reload);
+      });
+    }
+  };
+
+  console.log("openCheck", openCheck);
 
   const handleClickDelete = (data) => {
     setDataDelete(data);

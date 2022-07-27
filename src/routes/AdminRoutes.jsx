@@ -6,6 +6,7 @@ import EditDealer from "../screens/Admin/DealerManager/screens/EditDealer";
 import ProductManager from "../screens/Admin/Product Manager/screens/ProductManager";
 import OrderManager from "../screens/Admin/OrderManager/screens/OrderManager";
 import EditOrder from "../screens/Admin/OrderManager/screens/EditOrder";
+import UpdatePassword from "../screens/Admin/Password/screens/UpdatePassword";
 
 const AdminRoutes = (props) => {
   const handleLoading = props.handleLoading;
@@ -73,6 +74,14 @@ const AdminRoutes = (props) => {
           path={adminSlug.editDealer}
           render={(props) => (
             <EditDealer {...props} handleLoading={handleLoading} />
+          )}
+        ></Route>
+
+        <Route
+          exact
+          path={adminSlug.updatePassword}
+          render={(props) => (
+            <UpdatePassword {...props} handleLoading={handleLoading} />
           )}
         ></Route>
       </Switch>

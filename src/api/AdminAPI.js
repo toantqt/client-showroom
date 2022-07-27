@@ -8,8 +8,8 @@ export const covertDate = (date) => {
 };
 
 // const url = "https://xuan-nong.herokuapp.com/api";
-// const url = "http://45.15.24.162:6698/api";
-const url = "http://localhost:6698/api";
+const url = "http://45.15.24.162:6698/api";
+// const url = "http://localhost:6698/api";
 
 const headers = async () => {
   return { Authorization: `${await getAccessToken()}` };
@@ -508,6 +508,19 @@ export const deleteOrder = async (orderID) => {
     });
 };
 
+export const updateQuantityOrder = async (data) => {
+  return await axios
+    .patch(`${url}/v1/productSlider/quantity-order`, data, {
+      headers: await headers(),
+    })
+    .then(async (res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+};
+
 export const createCompany = (data) => {
   return new Promise(async (resolve, reject) => {
     return await axios
@@ -542,6 +555,21 @@ export const updateCompany = (id, data) => {
   return new Promise(async (resolve, reject) => {
     return await axios
       .patch(`${url}/v1/productSlider/company/${id}`, data, {
+        headers: await headers(),
+      })
+      .then(async (res) => {
+        return resolve(res.data);
+      })
+      .catch((error) => {
+        return reject(error.response);
+      });
+  });
+};
+
+export const updatePassword = (data) => {
+  return new Promise(async (resolve, reject) => {
+    return await axios
+      .patch(`${url}/v1/productSlider/password`, data, {
         headers: await headers(),
       })
       .then(async (res) => {

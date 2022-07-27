@@ -32,4 +32,6 @@ export default {
 
   orderManager: "/admin/order-manager",
   editOrder: "/admin/order",
+
+  updatePassword: "/admin/update-password",
 };

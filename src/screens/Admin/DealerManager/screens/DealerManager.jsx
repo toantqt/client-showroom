@@ -14,6 +14,7 @@ import AdminSlug from "../../../../resources/AdminSlug";
 import ModalConfirmComponent from "../../../../components/Modal/ModalConfirm.component";
 import SearchInputComponent from "../../../../components/Search Input/SearchInput.component";
 import Chip from "@material-ui/core/Chip";
+import ModalViewComponent from "../../../../components/Modal/ModalView.component";
 export default function DealerManager(props) {
   const history = useHistory();
 
@@ -21,6 +22,8 @@ export default function DealerManager(props) {
   const [id, setID] = useState("");
   const [openConfirm, setOpenConfirm] = useState(false);
   const [reload, setReload] = useState(false);
+  const [company, setCompany] = useState();
+  const [openModalView, setOpenModalView] = useState(false);
 
   useEffect(async () => {
     props.handleLoading(true);
@@ -57,7 +60,7 @@ export default function DealerManager(props) {
               aria-label="views"
               className="btn-action btn-a-1"
               onClick={() => {
-                // handleClickDelete(action.row?.action?._id);
+                handleClickViews(action.row?.action);
               }}
             >
               <VisibilityIcon />
@@ -81,6 +84,16 @@ export default function DealerManager(props) {
   const handleClickDelete = (id) => {
     setID(id);
     setOpenConfirm(true);
+  };
+
+  const handleClickViews = (data) => {
+    setCompany(data);
+    setOpenModalView(true);
+  };
+
+  const handleCloseViews = () => {
+    setCompany();
+    setOpenModalView(false);
   };
 
   const handleCloseConfirm = () => {
@@ -145,6 +158,11 @@ export default function DealerManager(props) {
         handleClose={handleCloseConfirm}
         title="Xác nhận xóa đại lý"
         handleDelete={submitDeleteProduct}
+      />
+      <ModalViewComponent
+        open={openModalView}
+        data={company}
+        handleClose={handleCloseViews}
       />
     </Grid>
   );

@@ -186,7 +186,7 @@ export default function ProductManager(props) {
   return (
     <Grid>
       <div className="header-title mb-3">
-        <span>Quản Lý Sản Phẩm: ({product.length}) </span>
+        <span>Quản Lý Sản Phẩm: ({count}) </span>
       </div>
       <Grid container spacing={1}>
         <Grid item xs={4} className="mb-3">

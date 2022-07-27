@@ -6,6 +6,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useHistory } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
+import AdminSlug from "../../../../../resources/AdminSlug";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -27,6 +29,10 @@ export default function HeaderComponent(props) {
     window.location.reload();
   };
 
+  const handlePassword = () => {
+    history.push(AdminSlug.updatePassword);
+  };
+
   return (
     <div className="wrapp-header" style={{ float: "right" }}>
       <div>
@@ -42,6 +48,7 @@ export default function HeaderComponent(props) {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
+          <MenuItem onClick={handlePassword}>Đổi mật khẩu</MenuItem>
           <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
         </Menu>
       </div>

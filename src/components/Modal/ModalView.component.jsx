@@ -17,8 +17,8 @@ const ModalViewComponent = (props) => {
           <Close />
         </IconButton>
       </Box>
-      <DialogContent style={{ textAlign: "center" }} className="mt-3">
-        <DialogTitle> Thông tin khách hàng cần liên hệ</DialogTitle>
+      <DialogTitle> Thông Tin Nhà Phân Phối</DialogTitle>
+      <DialogContent style={{ textAlign: "left" }} className="mt-3">
         <div
           style={{
             fontSize: "16px",
@@ -27,20 +27,35 @@ const ModalViewComponent = (props) => {
           }}
         >
           <div>
-            <span>Họ và tên: {props?.data?.name}</span>
+            <span>
+              <span style={{ color: "rgb(13, 135, 69)" }}>Tên NPP</span>:{" "}
+              {props?.data?.companyName}
+            </span>
           </div>
           <div>
-            <span>Điện thoại: {props?.data?.phoneNumber}</span>
+            <span>
+              <span style={{ color: "rgb(13, 135, 69)" }}>Mã NPP</span>:{" "}
+              {props?.data?.acronym}
+            </span>
           </div>
           <div>
-            <span>Địa chỉ: {props?.data?.address}</span>
+            <span>
+              <span style={{ color: "rgb(13, 135, 69)" }}>Email</span>:{" "}
+              {props?.data?.email}
+            </span>
           </div>
           <div>
-            <span>Email: {props?.data?.email}</span>
+            <span>
+              <span style={{ color: "rgb(13, 135, 69)" }}>Địa chỉ</span>:{" "}
+              {props?.data?.address}
+            </span>
           </div>
 
           <div>
-            <span>Ghi chú: {props?.data?.note}</span>
+            <span>
+              <span style={{ color: "rgb(13, 135, 69)" }}>Điện thoại</span>:{" "}
+              {props?.data?.phoneNumber}
+            </span>
           </div>
         </div>
       </DialogContent>
